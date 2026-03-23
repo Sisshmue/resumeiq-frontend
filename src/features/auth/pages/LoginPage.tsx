@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { registerUser } from "../services/authAPI";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "../services/authAPI";
 
-export default function RegisterPage() {
+export default function LoginPage() {
   useEffect(() => {
-    document.title = "Register";
+    document.title = "Login";
   }, []);
-  const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -16,13 +16,14 @@ export default function RegisterPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await registerUser({ name, email, password });
-      localStorage.setItem("token", response.token);
-      alert("Registration successful!");
+      const res = await loginUser({ email, password });
+      localStorage.setItem("token", res.token);
+
+      // Navigate to homepage or dashboard after success
       setTimeout(() => navigate("/"), 500);
     } catch (e) {
       console.log(e);
-      alert("Registration Failed");
+      alert("Login Failed. Please check your credentials.");
     } finally {
       setLoading(false);
     }
@@ -31,37 +32,21 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        {/* Logo/Icon */}
+        {/* Brand Icon */}
         <div className="mx-auto h-12 w-12 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg">
           RIQ
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900">
-          Create your account
+          Welcome back
         </h2>
         <p className="mt-2 text-center text-sm text-slate-600">
-          Join ResumeIQ to start optimizing your career.
+          Sign in to access your ResumeIQ insights.
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-2xl sm:px-10 border border-slate-100">
           <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label className="block text-sm font-medium text-slate-700">
-                Full Name
-              </label>
-              <div className="mt-1">
-                <input
-                  type="text"
-                  required
-                  className="appearance-none block w-full px-3 py-3 border border-slate-300 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                  placeholder="John Doe"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-            </div>
-
             <div>
               <label className="block text-sm font-medium text-slate-700">
                 Email Address
@@ -79,9 +64,17 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700">
-                Password
-              </label>
+              <div className="flex justify-between">
+                <label className="block text-sm font-medium text-slate-700">
+                  Password
+                </label>
+                <a
+                  href="#"
+                  className="text-xs font-semibold text-blue-600 hover:text-blue-500"
+                >
+                  Forgot?
+                </a>
+              </div>
               <div className="mt-1">
                 <input
                   type="password"
@@ -98,9 +91,36 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all active:scale-95"
+                className={`w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white transition-all 
+                  ${isLoading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 active:scale-95"}`}
               >
-                Create Account
+                {isLoading ? (
+                  <>
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Signing in...
+                  </>
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </div>
           </form>
@@ -112,17 +132,17 @@ export default function RegisterPage() {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white text-slate-500">
-                  Already have an account?
+                  New to ResumeIQ?
                 </span>
               </div>
             </div>
             <div className="mt-6 text-center text-sm">
-              <a
-                href="/login"
+              <Link
+                to="/register"
                 className="font-bold text-blue-600 hover:text-blue-500"
               >
-                Sign in instead
-              </a>
+                Create an account
+              </Link>
             </div>
           </div>
         </div>

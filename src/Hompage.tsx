@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
@@ -6,9 +8,7 @@ export default function HomePage() {
         <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
           ResumeIQ
         </div>
-        <button className="bg-slate-900 text-white px-5 py-2 rounded-full font-medium hover:bg-slate-800 transition">
-          Sign In
-        </button>
+        <Link to='/register' className="bg-slate-900 text-white px-5 py-2 rounded-full font-medium hover:bg-slate-800 transition">SIgn Up</Link>
       </nav>
 
       {/* Hero Section */}
