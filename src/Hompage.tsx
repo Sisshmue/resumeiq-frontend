@@ -21,11 +21,11 @@ export default function HomePage() {
           ResumeIQ uses advanced AI to analyze your resume against industry-standard ATS algorithms. Get your score in seconds.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:bg-blue-700 transition">
+          <Link  to='/analyze' className="bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:bg-blue-700 transition">
             Analyze My Resume
-          </button>
-          <button className="bg-white border border-slate-200 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-slate-50 transition">
-            View Sample Report
+          </Link>
+          <button className="bg-white border border-blue-500 px-8 py-4 rounded-xl text-blue-600 text-lg font-semibold hover:bg-slate-50 transition">
+            Match My Resume
           </button>
         </div>
       </header>

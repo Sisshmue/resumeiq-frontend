@@ -18,8 +18,8 @@ export default function LoginPage() {
     try {
       const res = await loginUser({ email, password });
       localStorage.setItem("token", res.token);
-
-      // Navigate to homepage or dashboard after success
+      console.log(res);
+      
       setTimeout(() => navigate("/"), 500);
     } catch (e) {
       console.log(e);
