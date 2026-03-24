@@ -24,50 +24,36 @@ export default function MatchResumePage() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-slate-50">
       <Header />
-      <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6">
+      <div className="py-12 px-4 sm:px-6">
         <div className="max-w-5xl mx-auto">
           <div className="mb-10 text-center">
-            <h1 className="text-3xl font-bold text-slate-900">
-              JD Match Analysis
-            </h1>
-            <p className="text-slate-500 mt-2">
-              Compare your resume against a specific job role.
-            </p>
+            <h1 className="text-3xl font-extrabold text-slate-900">JD Match Analysis</h1>
+            <p className="text-slate-500 mt-2">Compare your resume against specific job requirements.</p>
           </div>
 
           {/* Input Section */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-            {/* File Upload */}
             <div className="lg:col-span-1 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-              <label className="block text-sm font-semibold text-slate-700 mb-4 text-center">
-                Upload Resume
-              </label>
+              <label className="block text-sm font-semibold text-slate-700 mb-4 text-center">Upload Resume</label>
               <div className="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-blue-400 transition cursor-pointer relative">
                 <input
                   type="file"
                   className="absolute inset-0 opacity-0 cursor-pointer"
                   accept=".pdf"
-                  onChange={(e) => {
-                    if (e.target.files) setFile(e.target.files[0]);
-                  }}
+                  onChange={(e) => { if (e.target.files) setFile(e.target.files[0]); }}
                 />
                 <span className="text-4xl">📄</span>
-                <p className="text-sm text-slate-500 mt-2">
-                  {file ? file.name : "Select PDF"}
-                </p>
+                <p className="text-sm text-slate-500 mt-2">{file ? file.name : "Select PDF"}</p>
               </div>
             </div>
 
-            {/* Job Description Input */}
             <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
-                Paste Job Description
-              </label>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Target Job Description</label>
               <textarea
-                className="w-full h-32 p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition resize-none"
-                placeholder="Paste the target job requirements here..."
+                className="w-full h-32 p-4 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none transition resize-none text-sm"
+                placeholder="Paste the job requirements here..."
                 value={jd}
                 onChange={(e) => setJD(e.target.value)}
               />
@@ -75,96 +61,109 @@ export default function MatchResumePage() {
                 onClick={handleUpload}
                 disabled={loading || !file || !jd}
                 className={`w-full mt-4 py-3 rounded-xl font-bold text-white transition-all 
-                ${loading || !file || !jd ? "bg-slate-300" : "bg-blue-600 hover:bg-blue-700 shadow-lg active:scale-95"}`}
+                  ${loading || !file || !jd ? "bg-slate-300" : "bg-blue-600 hover:bg-blue-700 shadow-lg active:scale-95"}`}
               >
-                {loading ? "Analyzing Alignment..." : "Check Match Score"}
+                {loading ? "Calculating Match..." : "Check Match Score"}
               </button>
             </div>
           </div>
 
-          {/* Result Dashboard */}
+          {/* RESULT DASHBOARD */}
           {matchResult && (
-            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              {/* Top Row: Score & Overview */}
+            <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+              
+              {/* Row 1: Match Score & Overview */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center">
-                  <span className="text-slate-500 font-medium text-sm mb-2">
-                    MATCH SCORE
-                  </span>
-                  <div className="text-5xl font-black text-blue-600">
-                    {matchResult.analysis.ATS_score}
-                    <span className="text-xl text-slate-300">/100</span>
+                  <span className="text-slate-500 font-medium text-xs mb-2 uppercase tracking-widest">Job Match Score</span>
+                  <div className="text-6xl font-black text-blue-600">
+                    {matchResult.analysis.ATS_score}<span className="text-2xl text-slate-300">/100</span>
                   </div>
                 </div>
-
                 <div className="md:col-span-2 bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                  <h3 className="font-bold text-slate-800 mb-2">
-                    Analysis Overview
-                  </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    {matchResult.analysis.overview}
-                  </p>
+                  <h3 className="font-bold text-slate-800 mb-2">Analysis Overview</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">{matchResult.analysis.overview}</p>
                 </div>
               </div>
 
-              {/* Middle Row: Strengths & Weaknesses */}
+              {/* Row 2: Strengths & Weaknesses (Arrays) */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-green-50 p-6 rounded-2xl border border-green-100">
-                  <h4 className="text-green-800 font-bold flex items-center mb-3">
-                    <span className="mr-2">✅</span> Key Strengths
-                  </h4>
-                  <p className="text-green-700 text-sm">
-                    {matchResult.analysis.strengths}
-                  </p>
-                </div>
-                <div className="bg-red-50 p-6 rounded-2xl border border-red-100">
-                  <h4 className="text-red-800 font-bold flex items-center mb-3">
-                    <span className="mr-2">❌</span> Areas for Improvement
-                  </h4>
-                  <p className="text-red-700 text-sm">
-                    {matchResult.analysis.weaknesses}
-                  </p>
-                </div>
+                <ResultListCard title="Key Strengths" items={matchResult.analysis.strengths} icon="✅" bgColor="bg-green-50" textColor="text-green-800" />
+                <ResultListCard title="Alignment Gaps" items={matchResult.analysis.weaknesses} icon="❌" bgColor="bg-red-50" textColor="text-red-800" />
               </div>
 
-              {/* Bottom Row: Keywords & Suggestions */}
-              {/* Bottom Row: Keywords & Suggestions */}
+              {/* Row 3: Keywords Cloud */}
               <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                <div className="mb-6">
-                  <h4 className="font-bold text-slate-800 mb-3 flex items-center">
-                    <span className="mr-2">✨</span> Missing Keywords
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {matchResult.keywords.missing_keywords.length > 0 ? (
-                      matchResult.keywords.missing_keywords.map((word, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 bg-amber-50 text-amber-700 border border-amber-100 rounded-full text-xs font-bold uppercase tracking-wide shadow-sm"
-                        >
+                <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                  <span className="text-xl">🔍</span> Keyword Gap Analysis
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-3">Found in both</span>
+                    <div className="flex flex-wrap gap-2">
+                      {matchResult.keywords.found_keywords.map((word, i) => (
+                        <span key={i} className="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-xs font-medium border border-blue-100 italic">
+                          {word}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-3">Missing in Resume</span>
+                    <div className="flex flex-wrap gap-2">
+                      {matchResult.keywords.missing_keywords.map((word, i) => (
+                        <span key={i} className="px-3 py-1 bg-amber-50 text-amber-700 rounded-lg text-xs font-bold border border-amber-100">
                           + {word}
                         </span>
-                      ))
-                    ) : (
-                      <span className="text-sm text-green-600 font-medium italic">
-                        No missing keywords found. Great job!
-                      </span>
-                    )}
+                      ))}
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="pt-6 border-t border-slate-100">
-                  <h4 className="font-bold text-slate-800 mb-3">
-                    Improvement Suggestions
-                  </h4>
-                  <p className="text-slate-600 text-sm leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-100 italic">
-                    "{matchResult.analysis.resume_improvements_suggestions}"
-                  </p>
-                </div>
+              {/* Row 4: Future Growth & Roles */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                 <ResultListCard title="Alternative Job Matches" items={matchResult.analysis.suggested_job_roles} icon="💼" bgColor="bg-slate-100" textColor="text-slate-800" />
+                 <ResultListCard title="Recommended Skills" items={matchResult.analysis.recommended_skills_to_learn} icon="🧠" bgColor="bg-indigo-50" textColor="text-indigo-900" />
+              </div>
+
+              {/* Actionable Suggestions */}
+              <div className="bg-slate-900 p-8 rounded-2xl text-white shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-10 text-6xl italic font-serif">"</div>
+                <h4 className="font-bold text-blue-400 mb-4 flex items-center gap-2">
+                  <span>💡</span> Tips to Increase Your Score
+                </h4>
+                <ul className="space-y-3">
+                  {matchResult.analysis.resume_improvements_suggestions.map((tip, i) => (
+                    <li key={i} className="text-sm text-slate-300 flex items-start gap-3 border-b border-slate-800 pb-3 last:border-0">
+                      <span className="text-blue-500 font-bold">{i + 1}.</span> {tip}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+// Reusable component for the array-based cards
+function ResultListCard({ title, items, icon, bgColor, textColor }: { title: string, items: string[], icon: string, bgColor: string, textColor: string }) {
+  return (
+    <div className={`${bgColor} p-6 rounded-2xl border border-black/5 shadow-sm`}>
+      <h4 className={`${textColor} font-bold mb-4 flex items-center gap-2`}>
+        <span className="text-xl">{icon}</span> {title}
+      </h4>
+      <ul className="space-y-2">
+        {items.map((item, i) => (
+          <li key={i} className={`text-xs ${textColor} opacity-80 flex items-start gap-2 leading-relaxed`}>
+            <span className="mt-1.5 w-1 h-1 rounded-full bg-current shrink-0" />
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
