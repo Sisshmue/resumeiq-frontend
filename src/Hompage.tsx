@@ -1,16 +1,10 @@
 import { Link } from "react-router-dom";
+import Header from "./shared/components/Header";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
-      {/* Navigation */}
-      <nav className="flex justify-between items-center p-6 max-w-7xl mx-auto">
-        <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-          ResumeIQ
-        </div>
-        <Link to='/register' className="bg-slate-900 text-white px-5 py-2 rounded-full font-medium hover:bg-slate-800 transition">SIgn Up</Link>
-      </nav>
-
+      <Header/>
       {/* Hero Section */}
       <header className="max-w-5xl mx-auto text-center pt-20 pb-16 px-6">
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
@@ -24,9 +18,9 @@ export default function HomePage() {
           <Link  to='/analyze' className="bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-lg hover:bg-blue-700 transition">
             Analyze My Resume
           </Link>
-          <button className="bg-white border border-blue-500 px-8 py-4 rounded-xl text-blue-600 text-lg font-semibold hover:bg-slate-50 transition">
+          <Link to={'/match'} className="bg-white border border-blue-500 px-8 py-4 rounded-xl text-blue-600 text-lg font-semibold hover:bg-slate-50 transition">
             Match My Resume
-          </button>
+          </Link>
         </div>
       </header>
 
